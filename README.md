@@ -62,4 +62,18 @@ Voir [RELEASE.md](RELEASE.md) pour plus de détails.
 
 ## Captures d'écran
 
-Les captures d'écran seront ajoutées après les tests sur appareil mobile.
+<img width="675" height="1280" alt="image" src="https://github.com/user-attachments/assets/40e21ef8-f464-40c0-98e9-6d168ebd5578" />
+
+<img width="623" height="1280" alt="image" src="https://github.com/user-attachments/assets/38bf89b0-e884-4008-82ac-b533f9b57523" />
+
+<img width="623" height="1280" alt="image" src="https://github.com/user-attachments/assets/52b9478b-3318-46d1-938f-1cf1486cb711" />
+
+
+<img width="623" height="1280" alt="image" src="https://github.com/user-attachments/assets/4ab506b6-a016-40b0-8cef-ef329463b236" />*
+
+<img width="623" height="1280" alt="image" src="https://github.com/user-attachments/assets/02456cea-ed73-4fca-9929-f9a9ad4f585b" />
+
+
+
+
+
