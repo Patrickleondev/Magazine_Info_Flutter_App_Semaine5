@@ -49,9 +49,16 @@ lib/
     └── supprimer_redacteur_page.dart
 ```
 
+## Branches
+
+- `main` : Version SQLite (ancienne)
+- `firebase-integration` : Version Firebase (actuelle)
+
 ## Téléchargement
 
 APK disponible : [Lien de téléchargement à ajouter]
+
+Voir [RELEASE.md](RELEASE.md) pour plus de détails.
 
 ## Captures d'écran
 
