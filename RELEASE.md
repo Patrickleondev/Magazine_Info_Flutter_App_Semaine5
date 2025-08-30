@@ -1,14 +1,25 @@
-# Release - Magazine Info v1.0.0
+# Release - Magazine Info v1.1.0
 
 ## Téléchargement
 
-APK disponible : [Magazine_Info_v1.0.0.apk](releases/Magazine_Info_v1.0.0.apk)
+APK disponible : [Magazine_Info_v1.1.0.apk](releases/Magazine_Info_v1.1.0.apk)
 
-**Taille** : 44.5 MB  
-**Version** : 1.0.0  
+**Taille** : 45.7 MB  
+**Version** : 1.1.0  
 **Date** : 30 Août 2025
 
 ## Changelog
+
+### Version 1.1.0
+- Barre de recherche fonctionnelle dans l'AppBar
+- Boutons de partage interactifs (TEL, MAIL, PARTAGE)
+- Navigation améliorée avec menu drawer étendu
+- Rubriques Presse et Mode cliquables
+- Intégration Firebase Firestore
+- Gestion complète des rédacteurs (CRUD)
+- Interface utilisateur moderne avec Material Design 3
+- Synchronisation en temps réel
+- Nom de l'application : "Magazine Info"
 
 ### Version 1.0.0
 - Intégration Firebase Firestore

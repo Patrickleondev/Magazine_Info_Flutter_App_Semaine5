@@ -5,6 +5,10 @@ Application mobile Flutter pour la gestion des rédacteurs d'un magazine numéri
 ## Fonctionnalités
 
 - Page d'accueil avec présentation du magazine
+- Barre de recherche fonctionnelle
+- Boutons de partage interactifs (TEL, MAIL, PARTAGE)
+- Navigation améliorée avec menu drawer étendu
+- Rubriques Presse et Mode cliquables
 - Ajout de nouveaux rédacteurs
 - Affichage de la liste des rédacteurs en temps réel
 - Modification des informations des rédacteurs
@@ -16,6 +20,7 @@ Application mobile Flutter pour la gestion des rédacteurs d'un magazine numéri
 - Flutter 3.35.2
 - Firebase Core 2.32.0
 - Cloud Firestore 4.17.5
+- Share Plus 7.2.2
 - Material Design 3
 
 ## Installation
@@ -56,22 +61,13 @@ lib/
 
 ## Téléchargement
 
-APK disponible : [Magazine_Info_v1.0.0.apk](releases/Magazine_Info_v1.0.0.apk)
+APK disponible : [Magazine_Info_v1.1.0.apk](releases/Magazine_Info_v1.1.0.apk)
 
 Voir [RELEASE.md](RELEASE.md) pour plus de détails.
 
 ## Captures d'écran
 
-<img width="675" height="1280" alt="image" src="https://github.com/user-attachments/assets/40e21ef8-f464-40c0-98e9-6d168ebd5578" />
-
-<img width="623" height="1280" alt="image" src="https://github.com/user-attachments/assets/38bf89b0-e884-4008-82ac-b533f9b57523" />
-
-<img width="623" height="1280" alt="image" src="https://github.com/user-attachments/assets/52b9478b-3318-46d1-938f-1cf1486cb711" />
-
-
-<img width="623" height="1280" alt="image" src="https://github.com/user-attachments/assets/4ab506b6-a016-40b0-8cef-ef329463b236" />*
-
-<img width="623" height="1280" alt="image" src="https://github.com/user-attachments/assets/02456cea-ed73-4fca-9929-f9a9ad4f585b" />
+Les captures d'écran seront ajoutées après les tests sur appareil mobile.
 
 
 
