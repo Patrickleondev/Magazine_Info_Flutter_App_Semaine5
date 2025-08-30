@@ -1,35 +1,43 @@
 class Redacteur {
-  final int? id;
+  final String? id;
   final String nom;
-  final String prenom;
-  final String email;
+  final String specialite;
 
   Redacteur({
     this.id,
     required this.nom,
-    required this.prenom,
-    required this.email,
+    required this.specialite,
   });
 
   // Constructeur sans l'attribut id
   Redacteur.sansId({
     required this.nom,
-    required this.prenom,
-    required this.email,
+    required this.specialite,
   }) : id = null;
 
-  // Convertir un Redacteur en Map
+  // Convertir un Redacteur en Map pour Firestore
   Map<String, dynamic> toMap() {
-    return {'id': id, 'nom': nom, 'prenom': prenom, 'email': email};
+    return {
+      'nom': nom,
+      'specialite': specialite,
+    };
   }
 
-  // Créer un Redacteur à partir d'un Map
-  factory Redacteur.fromMap(Map<String, dynamic> map) {
+  // Créer un Redacteur à partir d'un Map Firestore
+  factory Redacteur.fromMap(Map<String, dynamic> map, String documentId) {
     return Redacteur(
-      id: map['id'],
-      nom: map['nom'],
-      prenom: map['prenom'],
-      email: map['email'],
+      id: documentId,
+      nom: map['nom'] ?? '',
+      specialite: map['specialite'] ?? '',
+    );
+  }
+
+  // Créer un Redacteur à partir d'un DocumentSnapshot
+  factory Redacteur.fromFirestore(Map<String, dynamic> data, String id) {
+    return Redacteur(
+      id: id,
+      nom: data['nom'] ?? '',
+      specialite: data['specialite'] ?? '',
     );
   }
 }
