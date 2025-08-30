@@ -2,7 +2,11 @@
 
 ## Téléchargement
 
-APK disponible : [Lien de téléchargement à ajouter]
+APK disponible : [Magazine_Info_v1.0.0.apk](releases/Magazine_Info_v1.0.0.apk)
+
+**Taille** : 44.5 MB  
+**Version** : 1.0.0  
+**Date** : 30 Août 2025
 
 ## Changelog
 
@@ -15,7 +19,7 @@ APK disponible : [Lien de téléchargement à ajouter]
 
 ## Installation
 
-1. Télécharger l'APK
+1. Télécharger l'APK depuis le lien ci-dessus
 2. Activer l'installation depuis des sources inconnues
 3. Installer l'application
 4. Configurer Firebase (voir README.md)

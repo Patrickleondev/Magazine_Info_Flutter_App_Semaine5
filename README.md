@@ -56,7 +56,7 @@ lib/
 
 ## Téléchargement
 
-APK disponible : [Lien de téléchargement à ajouter]
+APK disponible : [Magazine_Info_v1.0.0.apk](releases/Magazine_Info_v1.0.0.apk)
 
 Voir [RELEASE.md](RELEASE.md) pour plus de détails.
 
