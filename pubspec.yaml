@@ -1,5 +1,5 @@
-name: activite_4
-description: "Application de prévisions météorologiques avec API OpenWeather"
+name: activite1
+description: "Application de gestion des rédacteurs pour Magazine Info"
 publish_to: 'none'
 
 version: 1.0.0+1
@@ -10,7 +10,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  http: ^0.13.3
+  firebase_core: ^2.24.2
+  cloud_firestore: ^4.13.6
+  share_plus: ^7.2.1
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
@@ -20,4 +22,8 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/images/magazineInfo.jpeg
+    - assets/images/presse.jpeg
+    - assets/images/mode.jpeg
 

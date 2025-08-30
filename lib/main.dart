@@ -1,94 +1,94 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:share_plus/share_plus.dart';
+import 'screens/redacteur_info_page.dart';
+import 'screens/ajout_redacteur_page.dart';
 
-void main() {
-  runApp(const MonApplication());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(const MonAppli());
 }
 
-// Classe MonApplication - Application principale
-class MonApplication extends StatelessWidget {
-  const MonApplication({super.key});
+class MonAppli extends StatelessWidget {
+  const MonAppli({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Application Météo',
+      title: 'Magazine Info',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        useMaterial3: true,
+        primaryColor: const Color.fromARGB(255, 183, 58, 106),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color.fromARGB(255, 183, 58, 106),
+        ),
       ),
-      home: const PrevisionInterface(),
+      home: const PageAccueil(),
     );
   }
 }
 
-// Classe PrevisionInterface - Interface utilisateur principale
-class PrevisionInterface extends StatefulWidget {
-  const PrevisionInterface({super.key});
+//----------------- Deuxième StatelessWidget : pageAccueil--------------------
+
+class PageAccueil extends StatefulWidget {
+  const PageAccueil({super.key});
 
   @override
-  State<PrevisionInterface> createState() => _PrevisionInterfaceState();
+  State<PageAccueil> createState() => _PageAccueilState();
 }
 
-class _PrevisionInterfaceState extends State<PrevisionInterface> {
-  final TextEditingController _villeController = TextEditingController();
-  bool _isLoading = false;
-  Map<String, dynamic>? _donneesMeteo;
-  String? _errorMessage;
+class _PageAccueilState extends State<PageAccueil> {
+  final TextEditingController _searchController = TextEditingController();
+  bool _isSearching = false;
 
-  // Méthode pour récupérer les données météorologiques
-  Future<void> _recupererDonnees() async {
-    final ville = _villeController.text.trim();
-    
-    if (ville.isEmpty) {
-      setState(() {
-        _errorMessage = 'Veuillez entrer le nom d\'une ville';
-        _donneesMeteo = null;
-      });
-      return;
+  // Méthode pour gérer la recherche
+  void _handleSearch() {
+    final query = _searchController.text.trim();
+    if (query.isNotEmpty) {
+      // Ici vous pouvez implémenter la logique de recherche
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Recherche pour: $query'),
+          backgroundColor: const Color.fromARGB(255, 183, 58, 106),
+        ),
+      );
     }
+  }
 
-    setState(() {
-      _isLoading = true;
-      _errorMessage = null;
-      _donneesMeteo = null;
-    });
+  // Méthode pour partager l'application
+  void _shareApp() {
+    Share.share(
+      'Découvrez Magazine Info - Votre magazine numérique avec gestion des rédacteurs !',
+      subject: 'Magazine Info - Application Mobile',
+    );
+  }
 
-    try {
-      // Remplacez 'VOTRE_API_KEY' par votre vraie clé API OpenWeather
-      const apiKey = 'VOTRE_API_KEY'; // À remplacer par votre clé API
-      final url = 'https://api.openweathermap.org/data/2.5/weather?q=$ville&appid=$apiKey&units=metric&lang=fr';
-      
-      final response = await http.get(Uri.parse(url));
-      
-      if (response.statusCode == 200) {
-        // Conversion des données JSON en objet Dart
-        _donneesMeteo = json.decode(response.body);
-        setState(() {
-          _isLoading = false;
-          _errorMessage = null;
-        });
-      } else {
-        setState(() {
-          _isLoading = false;
-          _errorMessage = 'Erreur: Ville non trouvée ou problème de connexion';
-          _donneesMeteo = null;
-        });
-      }
-    } catch (e) {
-      setState(() {
-        _isLoading = false;
-        _errorMessage = 'Erreur de connexion: $e';
-        _donneesMeteo = null;
-      });
-    }
+  // Méthode pour appeler
+  void _makeCall() {
+    // Simuler un appel
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Fonctionnalité d\'appel en cours de développement'),
+        backgroundColor: Color.fromARGB(255, 183, 58, 106),
+      ),
+    );
+  }
+
+  // Méthode pour envoyer un email
+  void _sendEmail() {
+    // Simuler l'envoi d'email
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Fonctionnalité d\'email en cours de développement'),
+        backgroundColor: Color.fromARGB(255, 183, 58, 106),
+      ),
+    );
   }
 
   @override
   void dispose() {
-    _villeController.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -96,88 +96,125 @@ class _PrevisionInterfaceState extends State<PrevisionInterface> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Prévisions météo',
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: Colors.blue,
+        title: _isSearching
+            ? TextField(
+                controller: _searchController,
+                autofocus: true,
+                decoration: const InputDecoration(
+                  hintText: 'Rechercher...',
+                  border: InputBorder.none,
+                  hintStyle: TextStyle(color: Colors.white70),
+                ),
+                style: const TextStyle(color: Colors.white),
+                onSubmitted: (_) => _handleSearch(),
+              )
+            : const Text(
+                "Magazine Infos",
+                style: TextStyle(color: Colors.white),
+              ),
         centerTitle: true,
+        backgroundColor: const Color.fromARGB(255, 183, 58, 106),
+        iconTheme: const IconThemeData(color: Colors.white),
+        actions: [
+          // Bouton de recherche
+          IconButton(
+            icon: Icon(_isSearching ? Icons.close : Icons.search, color: Colors.white),
+            onPressed: () {
+              setState(() {
+                if (_isSearching) {
+                  _searchController.clear();
+                }
+                _isSearching = !_isSearching;
+              });
+            },
+          ),
+        ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
           children: [
-            // Champ de saisie pour la ville
-            TextField(
-              controller: _villeController,
-              decoration: const InputDecoration(
-                labelText: 'Entrez une ville',
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.location_city),
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Color.fromARGB(255, 183, 58, 106),
               ),
-              onSubmitted: (_) => _recupererDonnees(),
+              child: Text(
+                'Menu de Navigation',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
+              ),
             ),
-            
-            const SizedBox(height: 20),
-            
-            // Bouton pour obtenir la météo
-            ElevatedButton(
-              onPressed: _isLoading ? null : _recupererDonnees,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              child: const Text('Obtenir la météo'),
-            ),
-            
-            const SizedBox(height: 30),
-            
-            // Affichage du chargement
-            if (_isLoading)
-              const Center(
-                child: Column(
-                  children: [
-                    CircularProgressIndicator(color: Colors.blue),
-                    SizedBox(height: 10),
-                    Text('Chargement des données météorologiques...'),
-                  ],
-                ),
-              ),
-            
-            // Affichage des erreurs
-            if (_errorMessage != null)
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.red[50],
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.red[200]!),
-                ),
-                child: Text(
-                  _errorMessage!,
-                  style: const TextStyle(color: Colors.red),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            
-            // Affichage des données météorologiques
-            if (_donneesMeteo != null)
-              DonneesMeteoWidget(donneesMeteo: _donneesMeteo!),
-            
-            // Message par défaut si aucune donnée
-            if (!_isLoading && _errorMessage == null && _donneesMeteo == null)
-              const Center(
-                child: Text(
-                  'Aucune donnée météo disponible.',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey,
+            ListTile(
+              leading: const Icon(Icons.add),
+              title: const Text('Ajouter un Rédacteur'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AjoutRedacteurPage(),
                   ),
-                ),
-              ),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.info),
+              title: const Text('Informations des Rédacteurs'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const RedacteurInfoPage(),
+                  ),
+                );
+              },
+            ),
+            const Divider(),
+            ListTile(
+              leading: const Icon(Icons.share),
+              title: const Text('Partager l\'application'),
+              onTap: () {
+                Navigator.pop(context);
+                _shareApp();
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.phone),
+              title: const Text('Nous contacter'),
+              onTap: () {
+                Navigator.pop(context);
+                _makeCall();
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.email),
+              title: const Text('Envoyer un email'),
+              onTap: () {
+                Navigator.pop(context);
+                _sendEmail();
+              },
+            ),
+          ],
+        ),
+      ),
+      body: const SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image(
+              image: AssetImage('assets/images/magazineInfo.jpeg'),
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: 200,
+            ),
+            PartieTitre(),
+            PartieTexte(),
+            PartieIcone(),
+            SizedBox(height: 20),
+            PartieRubrique(),
           ],
         ),
       ),
@@ -185,67 +222,167 @@ class _PrevisionInterfaceState extends State<PrevisionInterface> {
   }
 }
 
-// Classe DonneesMeteoWidget - Affichage des données météorologiques
-class DonneesMeteoWidget extends StatelessWidget {
-  final Map<String, dynamic> donneesMeteo;
+//-------------- Troisième StatelessWidget : PartieTitre-----------------------
 
-  const DonneesMeteoWidget({
-    super.key,
-    required this.donneesMeteo,
-  });
+class PartieTitre extends StatelessWidget {
+  const PartieTitre({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final main = donneesMeteo['main'] as Map<String, dynamic>?;
-    final weather = donneesMeteo['weather'] as List<dynamic>?;
-    final weatherDescription = weather?.isNotEmpty == true 
-        ? weather![0]['description'] as String? 
-        : null;
-    
-    final temperature = main?['temp']?.toString();
-    final description = weatherDescription ?? 'Description non disponible';
-
     return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.blue[50],
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.blue[200]!),
-      ),
-      child: Column(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Informations météorologiques',
-            style: TextStyle(
-              fontSize: 18,
+          Text(
+            "Bienvenue au Magazine Infos",
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+          Text(
+            "Votre magazine numérique, votre univers d'inspiration",
+            style: TextStyle(fontSize: 16, color: Colors.black54),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+//-------------- Quatrième StatelessWidget : PartieTexte-----------------------
+
+class PartieTexte extends StatelessWidget {
+  const PartieTexte({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      child: const Text(
+        "Magazine Infos est bien plus qu'un simple magazine numérique. C'est votre passerelle vers la mode, une source d'inspiration quotidienne où art et culture se rencontrent. Nos contenus soigneusement sélectionnés pour vous aideront sur les dernières tendances, la vie et nous veillerons à garder le divertissement au point.",
+        style: TextStyle(fontSize: 14, height: 1.5),
+        textAlign: TextAlign.justify,
+      ),
+    );
+  }
+}
+
+//---------------------------- Cinquième StatelessWidget : PartieIcone----------------------
+
+class PartieIcone extends StatelessWidget {
+  const PartieIcone({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          _buildIconColumn(Icons.phone, "TEL", () {
+            // Fonctionnalité d'appel
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Fonctionnalité d\'appel en cours de développement'),
+                backgroundColor: Color.fromARGB(255, 183, 58, 106),
+              ),
+            );
+          }),
+          _buildIconColumn(Icons.email, "MAIL", () {
+            // Fonctionnalité d'email
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Fonctionnalité d\'email en cours de développement'),
+                backgroundColor: Color.fromARGB(255, 183, 58, 106),
+              ),
+            );
+          }),
+          _buildIconColumn(Icons.share, "PARTAGE", () {
+            // Fonctionnalité de partage
+            Share.share(
+              'Découvrez Magazine Info - Votre magazine numérique avec gestion des rédacteurs !',
+              subject: 'Magazine Info - Application Mobile',
+            );
+          }),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildIconColumn(IconData icon, String label, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, color: const Color.fromARGB(255, 183, 58, 106)),
+          const SizedBox(height: 5),
+          Text(
+            label,
+            style: const TextStyle(
+              color: Color.fromARGB(255, 183, 58, 106),
+              fontSize: 12,
               fontWeight: FontWeight.bold,
-              color: Colors.blue,
             ),
           ),
-          const SizedBox(height: 15),
-          Row(
-            children: [
-              const Icon(Icons.thermostat, color: Colors.orange, size: 30),
-              const SizedBox(width: 10),
-              Text(
-                'Température: ${temperature ?? 'N/A'}°C',
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Row(
-            children: [
-              const Icon(Icons.cloud, color: Colors.blue, size: 30),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  'Description: $description',
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+        ],
+      ),
+    );
+  }
+}
+
+//------------------- Sixième StatelessWidget : PartieRubrique----------------------------
+
+class PartieRubrique extends StatelessWidget {
+  const PartieRubrique({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Rubrique Presse - En cours de développement'),
+                    backgroundColor: Color.fromARGB(255, 183, 58, 106),
+                  ),
+                );
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset(
+                  'assets/images/presse.jpeg',
+                  fit: BoxFit.cover,
+                  height: 120,
                 ),
               ),
-            ],
+            ),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Rubrique Mode - En cours de développement'),
+                    backgroundColor: Color.fromARGB(255, 183, 58, 106),
+                  ),
+                );
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset(
+                  'assets/images/mode.jpeg',
+                  fit: BoxFit.cover,
+                  height: 120,
+                ),
+              ),
+            ),
           ),
         ],
       ),
